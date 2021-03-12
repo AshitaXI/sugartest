@@ -619,7 +619,7 @@ do
     assert((1):degree():round() == 57); -- 57.2958
     assert((1):deg():round() == 57); -- 57.2958
 
-    -- degree_tau
+    -- degree_tau (deg_tau, degtau)
     assert((1):degree_tau():round() == 57); -- 57.2958
 
     -- hex
@@ -644,7 +644,7 @@ do
     assert((100):radian():round() == 2); -- 1.7453292519943
     assert((100):rad():round() == 2);    -- 1.7453292519943
 
-    -- radian_tau
+    -- radian_tau (rad_tau, radtau)
     assert((100):radian_tau():round() == 2); -- 1.7453292519943
 
     -- round
@@ -665,7 +665,7 @@ do
     assert((0):sign() == 0);
     assert((1):sign() == 1);
 
-    -- tostring
+    -- tostring (tostr, str, string)
     assert((1337):tostring() == '1337');
     assert((1337.1337):tostring() == '1337.1337');
 
@@ -699,12 +699,12 @@ do
     assert((30):add(2) == 32);
     assert((40):add(3) == 43);
 
-    -- div
+    -- div (divide)
     assert((20):div(1) == 20);
     assert((30):div(2) == 15);
     assert((40):div(4) == 10);
 
-    -- eq
+    -- eq (equals)
     assert((10):eq(10) == true);
     assert((20):eq(20) == true);
     assert((30):eq(30) == true);
@@ -714,7 +714,7 @@ do
     assert((30):eq(3) == false);
     assert((40):eq(4) == false);
 
-    -- even
+    -- even (iseven)
     assert((1):even() == false);
     assert((2):even() == true);
 
@@ -745,12 +745,12 @@ do
     assert((21):mod(2) == 1);
     assert((21):mod(6) == 3);
 
-    -- mul
+    -- mul (mult, multiply)
     assert((20):mult(1) == 20);
     assert((30):mult(2) == 60);
     assert((40):mult(3) == 120);
 
-    -- ne
+    -- ne (neq, notequal, notequals)
     assert((10):ne(10) == false);
     assert((20):ne(20) == false);
     assert((30):ne(30) == false);
@@ -760,11 +760,11 @@ do
     assert((30):ne(3) == true);
     assert((40):ne(4) == true);
 
-    -- odd
+    -- odd (isodd)
     assert((1):odd() == true);
     assert((2):odd() == false);
 
-    -- sub
+    -- sub (subtract)
     assert((20):sub(1) == 19);
     assert((30):sub(2) == 28);
     assert((40):sub(3) == 37);
@@ -775,14 +775,20 @@ do
     --
     ----------------------------------------------------------------------------------------------------
 
-    -- distance2d(...)
-    -- distance3d(...)
+    -- d3dcolor
+    assert(math.d3dcolor(255, 255, 255, 255) == 0xFFFFFFFF);
+    assert(math.d3dcolor(255, 0, 0, 0) == 0xFF000000);
+    assert(math.d3dcolor(255, 255, 0, 0) == 0xFFFF0000);
+    assert(math.d3dcolor(255, 255, 0, 255) == 0xFFFF00FF);
+
+    -- distance2d
+    -- distance3d
     local x1, y1, z1 = 25.0, 25.0, 25.0;
     local x2, y2, z2 = 10.0, 10.0, 10.0;
     assert(math.distance2d(x1, y1, x2, y2):round(2) == 21.21);
     assert(math.distance3d(x1, y1, z1, x2, y2, z2):round(2) == 25.98);
 
-    -- randomrng(...)
+    -- randomrng (randomrange, rndrng)
     for x = 1, 10 do
         assert(math.randomrng(5, 6):within(5, 6) == true);
         assert(math.randomrng(5, 6):within(1, 2) == false);
