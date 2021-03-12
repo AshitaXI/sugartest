@@ -357,7 +357,12 @@ do
 
     -- partialskip (skip)
     do
-        -- TODO: Add this!
+        local function test(a, b, c, d) return a, b, c, d; end
+        local a, b, c, d = test:skip(2, 11, 22)('a', 'b', 'c', 'd');
+        assert(a == 11);
+        assert(b == 22);
+        assert(c == 'c');
+        assert(d == 'd');
     end
 
     -- prepare
