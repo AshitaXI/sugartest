@@ -80,7 +80,7 @@ do
     assert(t:either(false) == true);
     assert(t:either(true) == true);
 
-    -- equals
+    -- equals (is, match, matches, same)
     assert(f:equals(false) == true);
     assert(f:equals(true) == false);
     assert(t:equals(false) == false);
@@ -175,7 +175,7 @@ do
         assert(-ft() == false);
     end
 
-    -- bench
+    -- bench (benchmark, time)
     do
         -- We cannot guarantee a runtime here due to various system hardware configs and performances,
         -- so we just want to make sure it took at least the time we slept for.
@@ -183,7 +183,7 @@ do
         assert(wait2:bench() >= 2);
     end
 
-    -- bind1
+    -- bind1 (bind, curry)
     -- bind2
     -- bindn
     do
@@ -212,7 +212,7 @@ do
         assert(f:call() == 123);
     end
 
-    -- complement
+    -- complement (negate)
     do
         local function f_false() return false; end
         local function f_true() return true; end
@@ -221,7 +221,7 @@ do
         assert(f_true:complement()() == false);
     end
 
-    -- compose
+    -- compose (pipe)
     do
         local function f_add1(a) return a + 1; end
         local function f_add2(a) return a + 2; end
@@ -238,7 +238,7 @@ do
         assert(f_calc1:compose(f_calc2, f_calc3)(2, 4, 10) == 32);
     end
 
-    -- cond
+    -- cond (condition, execif)
     do
         local function cond_false() return false; end
         local function cond_true() return true; end
@@ -248,7 +248,7 @@ do
         assert(f_call:cond(cond_true)() == 1337);
     end
 
-    -- constant
+    -- constant (const)
     do
         -- Wrap a functions return to be constant..
         local function f_const() return 1337; end
@@ -283,7 +283,7 @@ do
         assert(f_call1:dispatch(f_call2, f_call3, f_call4)() == 1337 and calls == 3);
     end
 
-    -- it
+    -- it (iter)
     do
         local val = 0;
         local function f_ret10() return 11, 22, 33, 44, 55, 66, 77, 88, 99, 100; end
@@ -292,7 +292,7 @@ do
         assert(val == 595);
     end
 
-    -- lcompose
+    -- lcompose (lpipe)
     do
         local function f_add1(a) return a + 1; end
         local function f_add2(a) return a + 2; end
@@ -339,7 +339,7 @@ do
         assert(calls == 1);
     end
 
-    -- partial
+    -- partial (apply)
     do
         local function f_fmt4(a, b, c, d) return string.format('%s, %s, %s, %s', a, b, c, d); end
         local f = f_fmt4:partial('a', 'b');
@@ -347,12 +347,17 @@ do
         assert(f('c', 'd') == 'a, b, c, d');
     end
 
-    -- partialend
+    -- partialend (applyend)
     do
         local function f_fmt4(a, b, c, d) return string.format('%s, %s, %s, %s', a, b, c, d); end
         local f = f_fmt4:partialend('a', 'b');
 
         assert(f('c', 'd') == 'c, d, a, b');
+    end
+
+    -- partialskip (skip)
+    do
+        -- TODO: Add this!
     end
 
     -- prepare
@@ -363,7 +368,7 @@ do
         assert(f() == 10);
     end
 
-    -- rearg
+    -- rearg (args)
     do
         local function f_fmt4(a, b, c, d) return string.format('%s %s %s %s', a, b, c, d); end
         local f = f_fmt4:rearg(2, 1, 4, 3);
@@ -391,7 +396,7 @@ do
         assert(f_ret4[4]() == 44);
     end
 
-    -- single
+    -- single (onetime, static)
     do
         local calls = 0;
         local function f_add(a, b) calls = calls + 1; return a + b; end
@@ -413,7 +418,7 @@ do
         assert(calls == 4);
     end
 
-    -- tostring
+    -- tostring (str, tostr)
     do
         local function f_func() end
         assert(f_func:tostring():startswith('function:') == true);
