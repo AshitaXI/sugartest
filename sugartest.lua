@@ -47,12 +47,12 @@ addon.link      = 'https://ashitaxi.com/';
 -- Include the Ashita common libraries, which includes sugar..
 local common = require('common');
 
-----------------------------------------------------------------------------------------------------
---
--- Tests    : Booleans
--- Module   : boolean.lua
---
-----------------------------------------------------------------------------------------------------
+--[[
+*
+* Tests     : Booleans
+* Module    : boolean.lua
+*
+--]]
 
 do
     -- Metatable: __index
@@ -112,12 +112,12 @@ do
     assert(t:tostring() == 'true');
 end
 
-----------------------------------------------------------------------------------------------------
---
--- Tests    : Functions
--- Module   : function.lua
---
-----------------------------------------------------------------------------------------------------
+--[[
+*
+* Tests     : Functions
+* Module    : function.lua
+*
+--]]
 
 do
     -- Metatable: __add
@@ -579,12 +579,12 @@ do
     end
 end
 
-----------------------------------------------------------------------------------------------------
---
--- Tests    : Math
--- Module   : math.lua
---
-----------------------------------------------------------------------------------------------------
+--[[
+*
+* Tests     : Math
+* Module    : math.lua
+*
+--]]
 
 do
     -- Metatable: __index
@@ -789,12 +789,12 @@ do
     end
 end
 
-----------------------------------------------------------------------------------------------------
---
--- Tests    : Strings
--- Module   : string.lua
---
-----------------------------------------------------------------------------------------------------
+--[[
+*
+* Tests     : Strings
+* Module    : string.lua
+*
+--]]
 
 do
     local str1 = '/derp arg1 this_is_arg2 "this is a quoted arg3" arg4 "quoted arg5" arg6';
@@ -1160,12 +1160,12 @@ do
     assert(str4:size() == 4);
 end
 
-----------------------------------------------------------------------------------------------------
---
--- Tests    : Tables
--- Module   : tables.lua
---
-----------------------------------------------------------------------------------------------------
+--[[
+*
+* Tests     : Tables
+* Module    : table.lua
+*
+--]]
 
 do
     -- Define some test tables..
@@ -1416,27 +1416,28 @@ do
     assert(table.range(0, 10, 2):equals(T{ 0, 2, 4, 6, 8, 10, }));
 end
 
-----------------------------------------------------------------------------------------------------
---
--- Tests    : Nil
--- Module   : nil.lua
---
--- Note:
---
---  This is tested last because of what it does.
---
---  This is considered dangerous! Please do not use this unless you know what you are doing!
---
---  Lua, by default, will raise an error if you attempt to call or index a nil value. This is good
---  practice to avoid unintended situations in code and should generally always be followed. This
---  feature will remove those restrictions of Lua and allow you to attempt to call a nil function,
---  index a nil object/value, etc.
---
---  This should not be used to avoid proper error handling.
---  This should not be used to avoid fixing problems with code.
---
---  Please do not use this unless you know what it does and what you are doing!
-----------------------------------------------------------------------------------------------------
+--[[
+*
+* Tests     : Nil
+* Module    : nil.lua
+*
+* Note:
+*
+*   This is tested last because of what it does.
+*
+*   This is considered dangerous! Please do not use this unless you know what you are doing!
+*
+*   Lua, by default, will raise an error if you attempt to call or index a nil value. This is good
+*   practice to avoid unintended situations in code and should generally always be followed. This
+*   feature will remove those restrictions of Lua and allow you to attempt to call a nil function,
+*   index a nil object/value, etc.
+*
+*   This SHOULD NOT be used to avoid proper error handling.
+*   This SHOULD NOT be used to avoid fixing problems with code.
+*
+*   Please do not use this unless you know what it does and what you are doing!
+*
+--]]
 
 do
     -- Indexing nil here should fail..
