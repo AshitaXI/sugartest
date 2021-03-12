@@ -776,10 +776,10 @@ do
     ----------------------------------------------------------------------------------------------------
 
     -- d3dcolor
-    assert(math.d3dcolor(255, 255, 255, 255) == 0xFFFFFFFF);
-    assert(math.d3dcolor(255, 0, 0, 0) == 0xFF000000);
-    assert(math.d3dcolor(255, 255, 0, 0) == 0xFFFF0000);
-    assert(math.d3dcolor(255, 255, 0, 255) == 0xFFFF00FF);
+    assert(math.d3dcolor(255, 255, 255, 255) == -1);    -- 0xFFFFFFFF
+    assert(math.d3dcolor(255, 0, 0, 0) == -16777216);   -- 0xFF000000
+    assert(math.d3dcolor(255, 255, 0, 0) == -65536);    -- 0xFFFF0000
+    assert(math.d3dcolor(255, 255, 0, 255) == -65281);  -- 0xFFFF00FF
 
     -- distance2d
     -- distance3d
@@ -837,11 +837,15 @@ do
     -- Metatable: __unm
     assert(-'abc' == 'cba');
 
+    -- any
+    local args = str1:args();
+    assert(args[1]:any('/derp') == true);
+
     -- append
     assert(str2:append('123') == ' Hello world. 123');
 
     -- args
-    local args = str1:args();
+    args = str1:args();
     assert(#args == 7);
     assert(args[1] == '/derp');
     assert(args[3] == 'this_is_arg2');
