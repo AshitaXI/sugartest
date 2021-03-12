@@ -447,7 +447,7 @@ do
     --
     ----------------------------------------------------------------------------------------------------
 
-    -- all
+    -- all (both)
     do
         local function f_func1() return true; end
         local function f_func2() return true; end
@@ -458,7 +458,7 @@ do
         assert(f_func1:all(f_func2, f_func3, f_func4)() == false);
     end
 
-    -- any
+    -- any (either)
     do
         local function f_func1() return true; end
         local function f_func2() return true; end
@@ -469,7 +469,7 @@ do
         assert(f_func1:any(f_func2, f_func3, f_func4)() == true);
     end
 
-    -- count
+    -- count (counter)
     do
         local count = 0;
         local f = common.sugar.count(10);
@@ -481,7 +481,7 @@ do
         assert(count == 10);
     end
 
-    -- equals
+    -- equals (eq)
     do
         local f1 = common.sugar.equals(1337);
         local f2 = function () return 1337; end
@@ -491,7 +491,7 @@ do
         assert(f1(f3()) == false);
     end
 
-    -- none
+    -- none (neither)
     do
         local function f_func1() return true; end
         local function f_func2() return true; end
@@ -503,7 +503,7 @@ do
         assert(f_func4:none(f_func4, f_func4, f_func4)() == true);
     end
 
-    -- notequals
+    -- notequals (neq)
     do
         local f1 = common.sugar.notequals(1337);
         local f2 = function () return 1337; end
@@ -537,7 +537,6 @@ do
 
         f2:loop(0.2, cond2, cb2);
     end
-
 
     -- loopf
     do
