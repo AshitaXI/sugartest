@@ -1448,6 +1448,17 @@ do
     assert(table.range(0, 10, 2):equals(T{ 0, 2, 4, 6, 8, 10, }));
 
     -- T
+    local t1 = { };
+    local t2 = T{ };
+    assert(t1.copy == nil); -- Test function exists..
+    assert(t2.copy ~= nil); -- Test function exists..
+
+    assert(getmetatable(t1) == nil); -- Test metatable exists..
+    assert(getmetatable(t2) ~= nil); -- Test metatable exists..
+
+    local t3 = { };
+    t3 = T(t3);
+    assert(getmetatable(t3) ~= nil); -- Test metatable exists..
 end
 
 --[[
