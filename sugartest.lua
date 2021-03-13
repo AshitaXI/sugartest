@@ -1212,10 +1212,10 @@ do
     -- append
     assert(T{ 2, 4, 6, 8 }:append(10):equals(T{ 2, 4, 6, 8, 10 }) == true);
 
-    -- clear
+    -- clear (null)
     assert(T{ 2, 4, 6, 8 }:clear():empty() == true);
 
-    -- contains
+    -- contains (hasval, hasvalue)
     assert(t_nums:contains(1) == true);
     assert(t_nums:contains(9) == true);
     assert(t_nums:contains(10) == false);
@@ -1223,7 +1223,7 @@ do
     assert(t_alpha:contains('g') == true);
     assert(t_alpha:contains('z') == false);
 
-    -- containskey
+    -- containskey (haskey)
     local configs = T{
         ['color'] = { 0.0, 0.0, 0.0, 0.0 },
         ['font'] = {
@@ -1235,7 +1235,7 @@ do
     assert(configs:containskey('color') == true);
     assert(configs:containskey('visible') == false);
 
-    -- copy
+    -- copy (clone)
     local t_nums_copy = t_nums:copy();
     t_nums_copy[1] = 99;
     assert(t_nums[1] == 1 and t_nums_copy[1] == 99);
@@ -1256,7 +1256,7 @@ do
     assert(v == 3);
     assert(t_nums_copy:equals(T{ 1, 2, 4, 5, 6, 7, 8, 9, }));
 
-    -- each
+    -- each (foreach)
     local sum = 0;
     t_nums:each(function (v) sum = sum + v; end);
     assert(sum == 45);
@@ -1308,6 +1308,11 @@ do
     local t_flip = T{ [1] = 'a', [2] = 'b', [3] = 'c', }:flip();
     assert(t_flip:equals(T{ ['a'] = 1, ['b'] = 2, ['c'] = 3, }));
 
+    -- ieach (forieach)
+    sum = 0;
+    t_nums:ieach(function (v) sum = sum + v; end);
+    assert(sum == 45);
+
     -- imap
     assert(t_nums:copy():imap(function (v) return v + 1; end):equals(T{ 2, 3, 4, 5, 6, 7, 8, 9, 10, }));
 
@@ -1322,7 +1327,7 @@ do
     assert(t_intersect1:isarray() == true);     -- All in-order numeric keys..
     assert(t_intersect2:isarray() == false);    -- All numeric keys, but not in order..
 
-    -- it
+    -- it (iter)
     sum = 0;
     for _, v in t_nums:it() do sum = sum + v; end
     assert(sum == 45);
@@ -1331,14 +1336,14 @@ do
     assert(t_nums:join('') == '123456789');
     assert(t_nums:join(', ') == '1, 2, 3, 4, 5, 6, 7, 8, 9');
 
-    -- keys
+    -- keys (keyset)
     assert(t_nums:keys():equals(T{ 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
 
     -- last
     assert(t_nums:last() == 9);
     assert(t_alpha:last() == 'g');
 
-    -- length
+    -- length (len, size)
     assert(t_nums:length() == 9);
     assert(t_alpha:length() == 7);
 
@@ -1348,10 +1353,10 @@ do
     -- mapk
     assert(t_nums:copy():mapk(function (v) return v + 1; end):equals(T{ [2] = 1, [3] = 2, [4] = 3, [5] = 4, [6] = 5, [7] = 6, [8] = 7, [9] = 8, [10] = 9, }));
 
-    -- max
+    -- max (highest)
     assert(t_nums:max() == 9);
 
-    -- min
+    -- min (lowest)
     assert(t_nums:min() == 1);
 
     -- mult
@@ -1362,6 +1367,18 @@ do
     local t_merge2 = T{ 9, 9, 9, 9 };
     assert(t_merge1:merge(t_merge2):equals(T{ 1, 2, 3, 4, }));          -- No updates by default..
     assert(t_merge1:merge(t_merge2, true):equals(T{ 9, 9, 9, 9, }));    -- Overwrites enabled..
+
+    -- Test keyed merges..
+    t_merge1 = T{ a = 1, b = 2, c = 3, };
+    t_merge2 = T{ a = 11, b = 22, c = 33, };
+    assert(t_merge1:merge(t_merge2):equals(T{ a = 1, b = 2, c = 3, }));
+    assert(t_merge1:merge(t_merge2, true):equals(T{ a = 11, b = 22, c = 33, }));
+
+    -- Test keyed merges with overrides..
+    t_merge1 = T{ a = 1, b = 2, c = 3, };
+    t_merge2 = T{ a = 9, d = 11, e = 22, f = 33, };
+    assert(t_merge1:merge(t_merge2):equals(T{ a = 1, b = 2, c = 3, d = 11, e = 22, f = 33, }));
+    assert(t_merge1:merge(t_merge2, true):equals(T{ a = 9, b = 2, c = 3, d = 11, e = 22, f = 33, }));
 
     -- reduce
     local f_add = function (a, b) return a + b; end
@@ -1376,7 +1393,7 @@ do
     assert(T{ 1, 3, 5, 7, 9, 2, 4, 6, 8, }:sort(is_lt):equals(T{ 1, 2, 3, 4, 5, 6, 7, 8, 9, }));
     assert(T{ 1, 3, 5, 7, 9, 2, 4, 6, 8, }:sort(is_gt):equals(T{ 9, 8, 7, 6, 5, 4, 3, 2, 1, }));
 
-    -- sortkeys
+    -- sortkeys (keysort)
     local t_sortkeys = T{ [1] = 1, [3] = 3, [5] = 5, [2] = 2, [4] = 4, [6] = 6, };
     assert(t_sortkeys:copy():sortkeys():equals(T{ 1, 2, 3, 4, 5, 6, }));
     assert(t_sortkeys:copy():sortkeys(is_gt):equals(T{ 6, 5, 4, 3, 2, 1, }));
@@ -1414,7 +1431,7 @@ do
     local r1, r2, r3, r4, r5, r6, r7, r8, r9, r10 = t_nums:unpack();
     assert(r1 and r2 and r3 and r4 and r5 and r6 and r7 and r8 and r9 and r10 == nil);
 
-    -- values
+    -- values (vals)
     local vals = t_mixed:values();
     assert(vals:equals(T{ 9, 'x', 4, 1, 'c', 7, 'r', 3, 8, 'v' }));
 
@@ -1429,6 +1446,8 @@ do
     assert(table.range(5, 5):equals(T{ 5, }));
     assert(table.range(1, 10, 2):equals(T{ 1, 3, 5, 7, 9, }));
     assert(table.range(0, 10, 2):equals(T{ 0, 2, 4, 6, 8, 10, }));
+
+    -- T
 end
 
 --[[
