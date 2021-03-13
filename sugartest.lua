@@ -25,6 +25,8 @@ addon.version   = '1.0';
 addon.desc      = 'Tests the Ashita v4 sugar functional addon library.';
 addon.link      = 'https://ashitaxi.com/';
 
+local chat = require('chat');
+
 --[[
 * This is a simple addon demonstrating how to use the sugar functional library for Ashita. This is a library created
 * to replace the old v3 extension libs for things like strings, tables, and so on. Including the common lib will automatically
@@ -570,7 +572,7 @@ do
         -- Because these are just forwards to Ashita's task system, there is no real means to test that these
         -- methods have completed properly. We will not be testing them because of this, but will call them.
 
-        local f = function (str) print(string.format('\30\81[\30\06TestSugar\30\81] \30\106Called from: %s\30\01', str)); end
+        local f = function (str) print(chat.header('TestSugar'):append(chat.message('Called from: '):append(chat.success(str)))); end
 
         f:once(1, 'once');
         f:oncef(1, 'oncef');
@@ -1521,4 +1523,4 @@ do
     assert(s == false);
 end
 
-print('\30\81[\30\06TestSugar\30\81] \30\106All tests completed!\30\01');
+print(chat.header('TestSugar'):append(chat.success('All tests completed!')));
