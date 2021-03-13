@@ -840,8 +840,10 @@ do
     -- any
     local args = str1:args();
     assert(args[1]:any('/derp') == true);
+    assert(args[1]:any('/derp', '/herp') == true);
+    assert(args[1]:any('/herp', '/herp2') == false);
 
-    -- append
+    -- append (concat)
     assert(str2:append('123') == ' Hello world. 123');
 
     -- args
@@ -852,7 +854,7 @@ do
     assert(args[4] == 'this is a quoted arg3');
     assert(args[7] == 'arg6');
 
-    -- argsquoted
+    -- argsquoted (argsq)
     args = str1:argsquoted();
     assert(#args == 7);
     assert(args[1] == '/derp');
@@ -866,7 +868,7 @@ do
     assert(('test'):at(3) == 's');
     assert(('test'):at(4) == 't');
 
-    -- chars
+    -- chars (explode)
     local c = str2:chars();
     assert(c[1] == ' ');
     assert(c[2] == 'H');
@@ -884,11 +886,11 @@ do
     assert(('!!!!!Test    !    '):collapse('!') == '!Test    !    ');
     assert(('!!!!!Test    !    '):collapse('!', true) == '!Test    !');
 
-    -- compare
+    -- compare (cmp, eq)
     assert(('test'):compare('Test') == false);
     assert(('test'):compare('TeSt', true) == true);
 
-    -- contains
+    -- contains (has, includes)
     assert(str2:contains('H') == true);
     assert(str2:contains('!') == false);
 
@@ -928,16 +930,16 @@ do
     assert(('0x74 0x65 0x73 0x74'):fromhex() == 'test');
     assert(('0x74, 0x65, 0x73, 0x74'):fromhex() == 'test');
 
-    -- hex
+    -- hex (tohex)
     assert(('test'):hex() == '74 65 73 74');
     assert(('test'):hex('') == '74657374');
     assert(('test'):hex('-') == '74-65-73-74');
 
-    -- ieq
+    -- ieq (icmp)
     assert(('test'):ieq('Test') == true);
     assert(('test'):ieq('TeSt') == true);
 
-    -- insert(...)
+    -- insert
     assert(('test'):insert(-1, '123') == 'tes123t');    -- Negative wrap-around index..
     assert(('test'):insert(0, '123') == 'test123');     -- Invalid index.. (Appends)
     assert(('test'):insert(1, '123') == '123test');
@@ -953,12 +955,12 @@ do
     assert(str2:isalpha() == false);
     assert(('test'):isalpha() == true);
 
-    -- isalphanumeric
+    -- isalphanumeric (isalphanum)
     assert(str1:isalphanumeric() == false);
     assert(str2:isalphanumeric() == false);
     assert(('test1234'):isalphanumeric() == true);
 
-    -- isdigit
+    -- isdigit (isnumeric)
     assert(str1:isdigit() == false);
     assert(str2:isdigit() == false);
     assert(('1234'):isdigit() == true);
@@ -1015,7 +1017,7 @@ do
     assert(('test'):map(function () return ''; end) == '');
     assert(('test'):map(function (c) return c; end) == 'test');
 
-    -- number
+    -- number (num, tonumber)
     assert(('11'):number() == 11);
     assert(('22'):number() == 22);
     assert(('33'):number() == 33);
@@ -1023,7 +1025,12 @@ do
     assert(('22'):number(16) == 34);
     assert(('33'):number(16) == 51);
 
-    -- parts
+    -- number_or (num_or, tonumberor)
+    assert(('1'):number_or(2) == 1);
+    assert(('z'):number_or(2) == 2);
+    assert((''):number_or(2) == 2);
+
+    -- parts (chop, chunks)
     local str3 = '12345678';
     local parts = str3:parts(2);
     assert(#parts == 4);
@@ -1035,7 +1042,7 @@ do
     -- prepend
     assert(('test'):prepend('123') == '123test');
 
-    -- proper
+    -- proper (capitalize, toproper, title)
     assert(('test'):proper() == 'Test');
     assert(('test test test'):proper() == 'Test Test Test');
 
@@ -1099,10 +1106,10 @@ do
     assert(('test'):swapcase() == 'TEST');
     assert(('teST SwApCaSe'):swapcase() == 'TEst sWaPcAsE');
 
-    -- tostring
+    -- tostring (str, tostr)
     assert(str1:tostring() == str1);
 
-    -- totable
+    -- totable (bytes)
     local test_str = 'test';
     assert(#test_str:totable() == 4);
     assert(test_str:totable()[1] == string.byte('t'));
@@ -1129,11 +1136,11 @@ do
     assert(str2:type() == 'string');
     assert(('test'):type() == 'string');
 
-    -- upperfirst
+    -- upperfirst (ucfirst)
     assert(str2:upperfirst() == ' Hello world. ');
     assert(('test test'):upperfirst() == 'Test test');
 
-    -- zerofill
+    -- zerofill (zfill)
     assert(('test'):zerofill(4) == 'test');
     assert(('test'):zerofill(5) == '0test');
     assert(('test'):zerofill(6) == '00test');
@@ -1146,11 +1153,11 @@ do
     ----------------------------------------------------------------------------------------------------
 
     -- strip_colors
-    local color_str = '\30\02This would be \31\244colored in FFXi.\30\01';
-    assert(color_str:strip_colors() == 'This would be colored in FFXi.');
+    assert(('\30\02This would be \31\244colored in FFXi.\30\01'):strip_colors() == 'This would be colored in FFXi.');
 
-    -- strip_translate()
-    -- TODO: Add test later..
+    -- strip_translate
+    local test = AshitaCore:GetChatManager():ParseAutoTranslate('123 \253\2\2\1\11\253 321', true);
+    assert(test:strip_translate() == '123 Hello! 321');
 
     ----------------------------------------------------------------------------------------------------
     --
@@ -1159,15 +1166,13 @@ do
     ----------------------------------------------------------------------------------------------------
 
     -- length
-    local str4 = 'test';
-    assert(str4:length() == 4);
+    assert(('test'):length() == 4);
 
     -- fmt
     assert(('Hello %s, %d == 1337.'):fmt('world', 1337) == 'Hello world, 1337 == 1337.');
 
     -- size
-    str4 = 'test';
-    assert(str4:size() == 4);
+    assert(('test'):size() == 4);
 end
 
 --[[
