@@ -627,9 +627,6 @@ do
     -- hex
     assert((1337):hex() == '539');
 
-    -- octal
-    assert((1337):octal() == '2471');
-
     -- isinf
     assert((1):isinf() == false);
     assert((math.huge):isinf() == true);
@@ -641,6 +638,12 @@ do
     assert((1):isnan() == false);
     assert((math.huge):isnan() == false);
     assert((0 / 0):isnan() == true);
+
+    -- natural_sum (nsum, naturalsum)
+    assert(math.nsum(500) == 125250);
+
+    -- octal
+    assert((1337):octal() == '2471');
 
     -- radian
     assert((100):radian():round() == 2); -- 1.7453292519943
@@ -655,7 +658,6 @@ do
     assert((1.4):round() == 1);
     assert((1.5):round() == 2);
     assert((1.8):round() == 2);
-
     assert((1):round(2) == 1);
     assert((1.2222345):round(2) == 1.22);
     assert((1.4821334):round(2) == 1.48);
@@ -667,7 +669,7 @@ do
     assert((0):sign() == 0);
     assert((1):sign() == 1);
 
-    -- tostring (tostr, str, string)
+    -- tostring (str, string, tostr)
     assert((1337):tostring() == '1337');
     assert((1337.1337):tostring() == '1337.1337');
 
@@ -677,7 +679,6 @@ do
     assert((1.4):truncate() == 1);
     assert((1.5):truncate() == 1);
     assert((1.8):truncate() == 1);
-
     assert((1):truncate(2) == 1);
     assert((1.2222345):truncate(1) == 1.2);
     assert((1.4821334):truncate(1) == 1.4);
@@ -919,7 +920,7 @@ do
     assert(str2:endswith(' ') == true);
     assert(str2:enclose('!'):endswith('!') == true);
 
-    -- escape
+    -- escape (esc)
     assert(str2:escape() == ' Hello world%. ');
 
     -- expand
@@ -1107,6 +1108,9 @@ do
     -- swapcase
     assert(('test'):swapcase() == 'TEST');
     assert(('teST SwApCaSe'):swapcase() == 'TEst sWaPcAsE');
+
+    -- tonumbers (nums, tonums)
+    assert(('12349'):nums():eq({ 1, 2, 3, 4, 9 }));
 
     -- tostring (str, tostr)
     assert(str1:tostring() == str1);
@@ -1524,3 +1528,6 @@ do
 end
 
 print(chat.header('TestSugar'):append(chat.success('All tests completed!')));
+
+-- Unload the Sugartest addon..
+AshitaCore:GetChatManager():QueueCommand(1, '/addon unload sugartest');
