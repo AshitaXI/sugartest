@@ -1276,7 +1276,7 @@ do
     assert(T{}:empty() == true);
     assert(configs:empty(true) == true); -- Allows for empty child-tables.
 
-    -- equals
+    -- equals (eq, is)
     assert(t_nums:equals(T{ 1, 2, 3, 4, 5, 6, 7, 8, 9, }));
     assert(T{}:equals({}) == true);
     assert(T{}:equals(T{}) == true);
